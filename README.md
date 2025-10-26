@@ -1,5 +1,7 @@
 # 🎓 UniNotes
 
+This was just the backend of how the app works full appilication going to be done soon
+
 **UniNotes** is an innovative web platform designed for students, educators, and academic communities. It helps you **create, organize, and access digital notes** from any device, making learning and knowledge management effortless.
 
 ---
