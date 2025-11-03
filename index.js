@@ -8,9 +8,11 @@ import notesRoutes from "./routes/notes.routes.js";
 dotenv.config();
 
 const app = express();
-app.use(cors({
-  origin:["http://localhost:5500","https://notehub.vercel.app"],
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:5500", "https://notehub-two.vercel.app/"],
+  })
+);
 app.use(express.json());
 
 mongoose
