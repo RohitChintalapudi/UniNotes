@@ -2,9 +2,32 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  name: {
+    type: String,
+    required: [true, "Name is required"],
+    trim: true,
+    minlength: [3, "Name must be at least 3 characters long"],
+  },
+
+  email: {
+    type: String,
+    required: [true, "Email is required"],
+    unique: true,
+    lowercase: true, // automatically converts to lowercase
+    trim: true,
+    validate: {
+      validator: function (value) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      },
+      message: "Please enter a valid email address",
+    },
+  },
+
+  password: {
+    type: String,
+    required: [true, "Password is required"],
+    minlength: [6, "Password must be at least 6 characters long"],
+  },
 });
 
 userSchema.pre("save", async function (next) {
@@ -13,8 +36,9 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.methods.matchPassword = function (enteredPassword) {
-  return bcrypt.compare(enteredPassword, this.password);
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
 };
 
-export default mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+export default User;
